@@ -39,17 +39,22 @@ def mc_sim(sims, days, df):
 
     # FILL OUT THE REST OF THE CODE. The above code has given you 'sims' of simulations run 'days' days into the future.
     # Your task is to return the expected price on the last day +/- the 95% confidence interval.
-    return
+    std = np.std(price_series)
+    mean = np.mean(price_series)
+    upper = mean + 1.96 * std
+    lower = mean - 1.96 * std
+    # :return: a tuple: (lower_bound, upper_bound)
+    return lower, upper
+
 
 def main():
     filename = '20192020histdata.csv'
     rawdata = pd.read_csv(filename)
     cleansed = cleanse_data(rawdata)
-    simnum = 1  # change this number to one that you deem appropriate
+    simnum = 2500  # Somewhere between 2000-3000 simulations so that we got a tight and accurate range
     days = 25
-    mc_sim(simnum, days, cleansed)
-    return
-
+    print(f'We are 95% confident that XXY price is between: {mc_sim(simnum, days, cleansed)}')
+    
 
 if __name__ == '__main__':
     main()
